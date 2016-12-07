@@ -1,0 +1,174 @@
+html {
+	box-sizing: border-box;
+}
+
+html * {
+	box-sizing: inherit;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+
+.flex {
+	display: flex;
+}
+
+.flex-auto {
+	flex: 1;
+}
+
+.main {
+	height: 100vh;
+	border-right: solid 1px #DDD;
+}
+
+.sidebar {
+	height: 100vh;
+	overflow: hidden;
+}
+
+.sidebar-content {
+	padding: 10px 0;
+	height: 100%;
+	overflow: auto;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.actions {
+	height: 100%;
+	overflow-y: auto;
+}
+
+.action {
+	padding: 10px 15px;
+	border-bottom: solid 1px #DDD;
+	cursor: pointer;
+}
+
+.action-active {
+	background-color: #F0F0F0;
+}
+
+/* tabs start */
+
+.tabs {
+	font-family: Consolas, Lucida Console, monospace;
+}
+.tabs-header {
+	overflow: hidden;
+	background-color: #f3f3f3;
+	border-bottom: 1px solid #ccc;
+	font-size: 12px;
+	user-select: none;
+	-webkit-user-select: none;
+}
+.tabs-header-items {
+	margin-left: 5px;
+}
+.tabs-header-item {
+	box-sizing: border-box;
+	float: left;
+	margin-top: 6px;
+	padding: 0 6px;
+	height: 24px;
+	border: 1px solid transparent;
+	border-bottom: none;
+	line-height: 15px;
+	white-space: nowrap;
+	cursor: default;
+	display: flex;
+	align-items: center;
+	color: #5a5a5a;
+	font-family: '.SFNSDisplay-Regular', 'Helvetica Neue', 'Lucida Grande', sans-serif;
+}
+.tabs-header-item.selected {
+	border: 1px solid #ccc;
+	border-bottom: none;
+	color: #333;
+	background-color: white;
+	border-top-color: #ccc;
+}
+.tabs-header-item:hover, .tabs-header-item.selected:hover {
+	color: #333;
+	background-color: #e5e5e5;
+}
+
+/* tabs end */
+
+/* jsonTree start */
+
+.json-tree {
+	padding: 10px 20px;
+}
+
+.json-tree-data {
+	font-size: 13px;
+}
+
+.json-tree-data-key .arrow {
+	height: 10px;
+	width: 10px;
+	margin-left: -13px;
+	margin-right: 3px;
+}
+
+.json-tree-data-key .arrow-down {
+	transform: rotate(90deg);
+}
+
+.json-tree-data-key {
+	position: relative;
+	line-height: 13px;
+	padding-bottom:6px;
+	white-space: nowrap;
+	font-size: 0;
+	cursor: default;
+}
+.json-tree-data-key .item {
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 13px;
+}
+
+.json-tree-data .key{
+	color:#881391;
+	padding-right: 5px;
+}
+
+.json-tree-data .edit{
+    padding: 3px;
+    margin-top: -3px;
+    position: absolute;
+    border: solid 1px #e6e6e6;
+    box-sizing: border-box;
+}
+
+.json-tree-data .primitive{
+	color: #03c;
+	padding-right: 15px;
+}
+
+.json-tree-data .string{
+	color: #c41a16;
+	padding-right: 15px;
+}
+
+.json-tree-data .gray{
+	color: rgb(155, 147, 160);
+	padding-right: 15px;
+}
+
+.json-tree-data .others{
+	color: #444;
+	padding-right: 15px;
+}
+
+.json-tree-data-key .hide{
+	display: none;
+}
+
+/* jsonTree end */

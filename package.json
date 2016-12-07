@@ -1,0 +1,19 @@
+{
+  "name": "amo-devtools",
+  "version": "0.0.0",
+  "description": "amo-devtools",
+  "main": "index.js",
+  "scripts": {
+    "dev": "bili ./src/index.js --watch --compress -d dist --format umd -n panel"
+  },
+  "keywords": [
+    "amo",
+    "devtools"
+  ],
+  "author": "fengzilong",
+  "license": "MIT",
+  "devDependencies": {
+    "jsondiffpatch": "^0.2.4",
+    "reo": "0.0.4"
+  }
+}
