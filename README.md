@@ -11,3 +11,5 @@
 - Import state from json and export as json
 
 - Sync state with another client ( need server side support to connect clients, generate a special QRCode )
+
+- Navigation between view-update
