@@ -53,6 +53,10 @@ body {
 	background-color: #F0F0F0;
 }
 
+.action-view-will-render {
+	border-bottom: solid 1px #23d160;
+}
+
 /* tabs start */
 
 .tabs {

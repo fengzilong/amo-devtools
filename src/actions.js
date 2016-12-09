@@ -5,8 +5,7 @@ const port = connect();
 
 export default {
 	travel( { commit }, record ) {
-		// TODO: notify page
-		port.postMessage( { type: 'travel', payload: record.state } );
+		port.postMessage( { type: 'travel', payload: record } );
 		commit( 'history/to', record );
 	},
 	travelByIndex( { dispatch, get }, index ) {
@@ -35,6 +34,9 @@ export default {
 		} );
 		commit( 'history/add', record );
 	},
+	addViewUpdated( { commit } ) {
+		commit( 'history/markCurrentAsWillRender' );
+	},
 	changeTab( { commit }, key ) {
 		commit( 'tabs/select', key );
 	},
@@ -58,5 +60,5 @@ export default {
 		}
 
 		dispatch( 'travelByIndex', next );
-	}
+	},
 };

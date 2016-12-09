@@ -78,7 +78,10 @@ function installHook(window) {
 		} );
 	} );
 	hook.on( 'reo:getBaseState', function() {
-		console.log( 'reo:getBaseState' );
+		if ( !store ) {
+			return;
+		}
+
 		send( {
 			type: 'getBaseState',
 			payload: store.getState()
@@ -87,6 +90,12 @@ function installHook(window) {
 	hook.on( 'reo:reducer', function( action, state ) {
 		send( {
 			type: 'reducer',
+			payload: { action: action, state: state }
+		} );
+	} );
+	hook.on( 'reo:view-updated', function( action, state ) {
+		send( {
+			type: 'view-updated',
 			payload: { action: action, state: state }
 		} );
 	} );
@@ -103,8 +112,11 @@ function installHook(window) {
 			if ( message.type === 'getBaseState' ) {
 				hook.emit( 'reo:getBaseState' );
 			} else if ( message.type === 'travel' ) {
-				hook.emit( 'travel', message.payload );
-				store.replaceState( message.payload );
+				if ( message.payload.isViewWillRender ) {
+					hook.emit( 'reo:travel-to-state', message.payload.state );
+				} else {
+					hook.emit( 'reo:silent-travel-to-state', message.payload.state );
+				}
 			}
 		}
 	}, false );

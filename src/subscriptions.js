@@ -14,6 +14,9 @@ export default app => {
 			case 'reducer':
 				store.dispatch( 'addRecord', payload );
 				break;
+			case 'view-updated':
+				store.dispatch( 'addViewUpdated' );
+				break;
 			case 'purgeState':
 				store.dispatch( 'purgeState', payload );
 				break;

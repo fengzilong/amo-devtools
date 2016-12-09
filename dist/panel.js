@@ -7926,9 +7926,9 @@ var Actions = {
 	computed: {
 		base: 'base',
 		history: 'history',
-		current: 'current'
+		current: 'current',
 	},
-	template: "\n\t\t<div class=\"actions\" ref=\"v\">\n\t\t\t<div class=\"action flex { current === -1 ? 'action-active' : '' }\" on-click=\"{ this.dispatch( 'travel', base ) }\">\n\t\t\t\t<div class=\"flex-auto\">\n\t\t\t\t\tBase State\n\t\t\t\t</div>\n\t\t\t\t<div>\n\t\t\t\t\t{ base.formattedTime }\n\t\t\t\t</div>\n\t\t\t</div>\n\n\t\t\t{#list history as h}\n\t\t\t<div class=\"action flex { current === h_index ? 'action-active' : '' }\" on-click=\"{ this.dispatch( 'travel', h ) }\">\n\t\t\t\t<div class=\"flex-auto\">\n\t\t\t\t\t{ h.action.type }\n\t\t\t\t</div>\n\t\t\t\t<div>\n\t\t\t\t\t{ h.formattedTime }\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t{/list}\n\t\t</div>\n\t",
+	template: "\n\t\t<div class=\"actions\" ref=\"v\">\n\t\t\t<div class=\"action flex { current === -1 ? 'action-active' : '' }\" on-click=\"{ this.dispatch( 'travel', base ) }\">\n\t\t\t\t<div class=\"flex-auto\">\n\t\t\t\t\tBase State\n\t\t\t\t</div>\n\t\t\t\t<div>\n\t\t\t\t\t{ base.formattedTime }\n\t\t\t\t</div>\n\t\t\t</div>\n\n\t\t\t{#list history as h}\n\t\t\t<div class=\"action flex { current === h_index ? 'action-active' : '' } { h.isViewWillRender ? 'action-view-will-render' : '' }\" on-click=\"{ this.dispatch( 'travel', h ) }\">\n\t\t\t\t<div class=\"flex-auto\">\n\t\t\t\t\t{ h.action.type }\n\t\t\t\t</div>\n\t\t\t\t<div>\n\t\t\t\t\t{ h.formattedTime }\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t{/list}\n\t\t</div>\n\t",
 	init: function init() {
 		var $scrollContainer = this.$refs.v;
 		this.$watch( 'history', function ( nv, ov ) {
@@ -8075,10 +8075,17 @@ var history$1 = {
 	reducers: {
 		base: function base( state, record ) {
 			state.base = record;
+			record.isViewWillRender = true;
 		},
 		add: function add( state, record ) {
 			state.stack.push( record );
 			state.current = state.stack.length - 1;
+		},
+		markCurrentAsWillRender: function markCurrentAsWillRender( state ) {
+			var currentRecord = state.stack[ state.current ];
+			if ( currentRecord ) {
+				currentRecord.isViewWillRender = true;
+			}
 		},
 		clear: function clear( state ) {
 			state.stack.length = 0;
@@ -8141,8 +8148,7 @@ var actions = {
 	travel: function travel( ref, record ) {
 		var commit = ref.commit;
 
-		// TODO: notify page
-		port.postMessage( { type: 'travel', payload: record.state } );
+		port.postMessage( { type: 'travel', payload: record } );
 		commit( 'history/to', record );
 	},
 	travelByIndex: function travelByIndex( ref, index ) {
@@ -8180,6 +8186,11 @@ var actions = {
 		} );
 		commit( 'history/add', record );
 	},
+	addViewUpdated: function addViewUpdated( ref ) {
+		var commit = ref.commit;
+
+		commit( 'history/markCurrentAsWillRender' );
+	},
 	changeTab: function changeTab( ref, key ) {
 		var commit = ref.commit;
 
@@ -8211,7 +8222,7 @@ var actions = {
 		}
 
 		dispatch( 'travelByIndex', next );
-	}
+	},
 };
 
 var getters = {
@@ -8238,6 +8249,9 @@ var subscriptions = function (app) {
 				break;
 			case 'reducer':
 				store.dispatch( 'addRecord', payload );
+				break;
+			case 'view-updated':
+				store.dispatch( 'addViewUpdated' );
 				break;
 			case 'purgeState':
 				store.dispatch( 'purgeState', payload );

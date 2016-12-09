@@ -2,7 +2,7 @@ export default {
 	computed: {
 		base: 'base',
 		history: 'history',
-		current: 'current'
+		current: 'current',
 	},
 	template: `
 		<div class="actions" ref="v">
@@ -16,7 +16,7 @@ export default {
 			</div>
 
 			{#list history as h}
-			<div class="action flex { current === h_index ? 'action-active' : '' }" on-click="{ this.dispatch( 'travel', h ) }">
+			<div class="action flex { current === h_index ? 'action-active' : '' } { h.isViewWillRender ? 'action-view-will-render' : '' }" on-click="{ this.dispatch( 'travel', h ) }">
 				<div class="flex-auto">
 					{ h.action.type }
 				</div>
